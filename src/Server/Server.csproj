@@ -82,6 +82,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyReceiveFilter.cs" />
+    <Compile Include="MyRequestInfo.cs" />
+    <Compile Include="MyServer.cs" />
+    <Compile Include="MySession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
