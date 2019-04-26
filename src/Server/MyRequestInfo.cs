@@ -9,6 +9,14 @@ namespace Server
 {
     public class MyRequestInfo : IRequestInfo
     {
+        public MyRequestInfo(byte[] header, byte[] body)
+        {
+
+        }
         public string Key { get; set; }
+
+        public bool IsHeart { get; set; }
+
+        public string Body { get; set; }
     }
 }
