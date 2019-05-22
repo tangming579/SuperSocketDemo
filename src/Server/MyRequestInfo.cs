@@ -11,7 +11,7 @@ namespace Server
     {
         public MyRequestInfo(byte[] header, byte[] body)
         {
-
+            Body = System.Text.Encoding.UTF8.GetString(body, 0, body.Length);
         }
         public string Key { get; set; }
 

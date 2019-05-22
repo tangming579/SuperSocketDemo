@@ -112,5 +112,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SSCommonLib\SSCommonLib.csproj">
+      <Project>{00d23684-e98d-4a46-af87-702c0a1903eb}</Project>
+      <Name>SSCommonLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

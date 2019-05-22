@@ -9,29 +9,31 @@ namespace Server
 {
     public class MyReceiveFilter : FixedHeaderReceiveFilter<MyRequestInfo>
     {
+        //前四个字节为包头和长度描述
         public MyReceiveFilter() : base(4)
         {
 
         }
+
+        //解析消息中长度描述部分
         protected override int GetBodyLengthFromHeader(byte[] header, int offset, int length)
         {
             var bodyLength = (int)header[offset + 2] * 256 + (int)header[offset + 3];
             return bodyLength;
         }
 
+        //解析收到的数据
         protected override MyRequestInfo ResolveRequestInfo(ArraySegment<byte> header, byte[] bodyBuffer, int offset, int length)
         {
             if (bodyBuffer == null) return null;
 
             var body = bodyBuffer.Skip(offset).Take(length).ToArray();
-            if (body.Length < 2) return null;
-            var isReply = body.Length == 2;
 
             var totalBuffer = new List<byte>();
-            totalBuffer.AddRange(header.Array);
+            totalBuffer.AddRange(header.ToArray());
             totalBuffer.AddRange(body);
 
-            var info = new MyRequestInfo();
+            var info = new MyRequestInfo(header.ToArray(), totalBuffer.ToArray());
             return info;
         }
     }

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SSCommonLib;
 
 namespace Server
 {
@@ -22,7 +23,7 @@ namespace Server
     public partial class MainWindow : Window
     {
         private MyServer appServer;
-        private int port;
+        private int port = 8080;
 
         public MainWindow()
         {
@@ -34,11 +35,6 @@ namespace Server
         {
             if (appServer != null && appServer.State == SuperSocket.SocketBase.ServerState.Running)
                 return;
-            else if (appServer != null)
-            {
-                appServer.Dispose();
-            }
-
             var config = new SuperSocket.SocketBase.Config.ServerConfig()
             {
                 Name = "SuperSocketServer",
@@ -58,24 +54,24 @@ namespace Server
             appServer.Setup(config);
             if (!appServer.Start())
             {
-                
+                txbReceive.AppendText("初始化服务失败" + '\n');
             }
         }
         //客户端断开
         void app_SessionClosed(MySession session, CloseReason value)
         {
-            
+            txbReceive.AppendText($"客户端{session.SessionID}已断开，原因：{value.ToString()}" + '\n');
         }
         //客户端连接
         void app_NewSessionConnected(MySession session)
         {
-           
+            txbReceive.AppendText($"客户端{session.SessionID}已连接" + '\n');
         }
         //接收客户端消息
         private void App_NewRequestReceived(MySession session, MyRequestInfo requestInfo)
         {
             if (requestInfo == null) return;
-
+            txbReceive.AppendText($"收到{session.SessionID}消息：{requestInfo.Body}" + '\n');
         }
         //发送消息
         protected bool Send(string message)
@@ -85,35 +81,28 @@ namespace Server
                 foreach (var item in appServer.GetAllSessions())
                 {
                     if (item.Connected)
-                        item.Send(message);
+                    {
+                        var msg = CommandBuilder.BuildMsgCmd(message);
+                        item.Send(msg, 0, msg.Length);
+                    }
                 }
                 return true;
             }
-            else return false;
+            return false;
         }
-        protected bool Send(byte[] data)
-        {
-            if (appServer != null && appServer.State == SuperSocket.SocketBase.ServerState.Running && data.Length > 0)
-            {
-                foreach (var item in appServer.GetAllSessions())
-                {
-                    try
-                    {
-                        if (item.Connected)
-                            item.Send(data, 0, data.Length);
-                    }
-                    catch
-                    {
 
-                    }
-                    finally
-                    {
-                        //Console.WriteLine($"发送的消息：" + '\n' + DataConverter.ByteToHex(data, data.Length));
-                    }
-                }
-                return true;
-            }
-            else return false;
+        private void btnSendClear_Click(object sender, RoutedEventArgs e)
+        {
+            txbSend.Text = string.Empty;
+        }
+        private void btnSend_Click(object sender, RoutedEventArgs e)
+        {
+            Send(txbSend.Text);
+        }
+
+        private void btnRecClear_Click(object sender, RoutedEventArgs e)
+        {
+            txbReceive.Text = String.Empty;
         }
     }
 }
