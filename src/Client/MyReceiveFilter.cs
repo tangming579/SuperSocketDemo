@@ -18,10 +18,7 @@ namespace Client
         {
             byte[] header = bufferStream.Buffers[0].ToArray();
             byte[] bodyBuffer = bufferStream.Buffers[1].ToArray();
-            byte[] allBuffer = bufferStream.Buffers[0].Array.CloneRange(0, (int)bufferStream.Length);
-            if (allBuffer.Length < 6) return null;
-            var isReply = allBuffer.Length == 6;
-            var package = new MyPackageInfo(bodyBuffer, bodyBuffer);
+            var package = new MyPackageInfo(header, bodyBuffer);
             return package;
         }
 

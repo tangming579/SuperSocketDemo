@@ -8,8 +8,8 @@ namespace SSCommonLib
 {
     public class CommandBuilder
     {
-        public const int HeartMsg = 0x0001;
-        public const int HeaderHeart = 0x0002;
+        public const Int16 HeartMsg = 01;
+        public const Int16 HeaderHeart = 02;
 
         public static byte[] BuildMsgCmd(string msg)
         {

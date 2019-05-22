@@ -25,7 +25,7 @@ namespace Client
     {
         static EasyClient<MyPackageInfo> client = null;
         static System.Timers.Timer timer = null;
-        private int port = 8080;
+        private int port = 8089;
 
         public MainWindow()
         {
@@ -80,13 +80,16 @@ namespace Client
         }
         private void OnClientError(object sender, ErrorEventArgs e)
         {
-
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                txbReceive.AppendText($"错误：{e.Exception.Message}" + '\n');
+            }));
         }
         private void Client_NewPackageReceived(object sender, PackageEventArgs<MyPackageInfo> e)
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
             {
-
+                txbReceive.AppendText($"收到消息：{e.Package}" + '\n');
             }));
         }
         private void btnSendClear_Click(object sender, RoutedEventArgs e)
@@ -96,7 +99,11 @@ namespace Client
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
-
+            var msg = CommandBuilder.BuildMsgCmd(txbSend.Text);
+            if (client != null && client.IsConnected)
+            {
+                client.Send(msg);
+            }
         }
 
         private void btnRecClear_Click(object sender, RoutedEventArgs e)

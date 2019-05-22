@@ -14,6 +14,6 @@
         <Button x:Name="btnSendClear" Content="Clear" HorizontalAlignment="Left" Margin="231,38,0,0" VerticalAlignment="Top" Width="75" Click="btnSendClear_Click"/>
         <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Left" Margin="321,38,0,0" VerticalAlignment="Top" Width="75" Click="btnSend_Click"/>
         <Button x:Name="btnRecClear" Content="Clear" HorizontalAlignment="Left" Margin="321,174,0,0" VerticalAlignment="Top" Width="75" Click="btnRecClear_Click"/>
-        <CheckBox Content="Send heart" x:Name="cbSendHeart" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,41,310,263"></CheckBox>
+        <CheckBox Content="Send heart" x:Name="cbSendHeart" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,41,310,0"></CheckBox>
     </Grid>
 </Window>

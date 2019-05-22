@@ -29,11 +29,7 @@ namespace Server
 
             var body = bodyBuffer.Skip(offset).Take(length).ToArray();
 
-            var totalBuffer = new List<byte>();
-            totalBuffer.AddRange(header.ToArray());
-            totalBuffer.AddRange(body);
-
-            var info = new MyRequestInfo(header.ToArray(), totalBuffer.ToArray());
+            var info = new MyRequestInfo(header.ToArray(), body);
             return info;
         }
     }

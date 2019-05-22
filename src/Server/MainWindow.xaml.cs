@@ -23,7 +23,7 @@ namespace Server
     public partial class MainWindow : Window
     {
         private MyServer appServer;
-        private int port = 8080;
+        private int port = 8089;
 
         public MainWindow()
         {
@@ -60,18 +60,27 @@ namespace Server
         //客户端断开
         void app_SessionClosed(MySession session, CloseReason value)
         {
-            txbReceive.AppendText($"客户端{session.SessionID}已断开，原因：{value.ToString()}" + '\n');
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                txbReceive.AppendText($"客户端{session.SessionID}已断开，原因：{value.ToString()}" + '\n');
+            }));
         }
         //客户端连接
         void app_NewSessionConnected(MySession session)
         {
-            txbReceive.AppendText($"客户端{session.SessionID}已连接" + '\n');
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                txbReceive.AppendText($"客户端{session.SessionID}已连接" + '\n');
+            }));
         }
         //接收客户端消息
         private void App_NewRequestReceived(MySession session, MyRequestInfo requestInfo)
         {
-            if (requestInfo == null) return;
-            txbReceive.AppendText($"收到{session.SessionID}消息：{requestInfo.Body}" + '\n');
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (requestInfo == null) return;
+                txbReceive.AppendText($"收到{session.SessionID}消息：{requestInfo.Body}" + '\n');
+            }));
         }
         //发送消息
         protected bool Send(string message)
