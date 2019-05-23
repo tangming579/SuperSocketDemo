@@ -7,15 +7,22 @@ using System.Threading.Tasks;
 
 namespace Server
 {
+    //数据格式：
+    //  -------+----------+------------------------------------------------------+
+    //  0001   | 0010     |  4C36 3150 2D43 4D2B 4C30 3643 5055 2D43 4D2B 4C 4A  |
+    //  固定头 | 数据长度 |  数据                                                |
+    //         |          |                                                      |
+    //  -------+----------+------------------------------------------------------+
+
     public class MyReceiveFilter : FixedHeaderReceiveFilter<MyRequestInfo>
     {
-        //前四个字节为包头和长度描述
+        //前四个字节为包头长度（headerSize）
         public MyReceiveFilter() : base(4)
         {
 
         }
 
-        //解析消息中长度描述部分
+        //解析消息中长度
         protected override int GetBodyLengthFromHeader(byte[] header, int offset, int length)
         {
             var bodyLength = (int)header[offset + 2] * 256 + (int)header[offset + 3];

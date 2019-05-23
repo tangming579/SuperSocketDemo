@@ -8,12 +8,13 @@
         Title="Client" Height="350" Width="525">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="28,42,0,0" TextWrapping="Wrap" Text="Send：" VerticalAlignment="Top"/>
-        <TextBox x:Name="txbSend" HorizontalAlignment="Left" Height="96" Margin="28,62,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="368"/>
+        <TextBox x:Name="txbSend" HorizontalAlignment="Left" Height="96" Margin="28,62,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="468"/>
         <TextBlock HorizontalAlignment="Left" Margin="28,178,0,0" TextWrapping="Wrap" Text="Receive：" VerticalAlignment="Top"/>
-        <TextBox x:Name="txbReceive" HorizontalAlignment="Left" Height="96" Margin="28,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="368"/>
-        <Button x:Name="btnSendClear" Content="Clear" HorizontalAlignment="Left" Margin="231,38,0,0" VerticalAlignment="Top" Width="75" Click="btnSendClear_Click"/>
-        <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Left" Margin="321,38,0,0" VerticalAlignment="Top" Width="75" Click="btnSend_Click"/>
-        <Button x:Name="btnRecClear" Content="Clear" HorizontalAlignment="Left" Margin="321,174,0,0" VerticalAlignment="Top" Width="75" Click="btnRecClear_Click"/>
-        <CheckBox Content="Send heart" x:Name="cbSendHeart" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,41,310,0"></CheckBox>
+        <TextBox x:Name="txbReceive" TextChanged="TxbReceive_OnTextChanged" HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto" Height="96" Margin="28,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="468"/>
+        <Button x:Name="btnSendClear" Content="Clear" HorizontalAlignment="Left" Margin="286,38,0,0" VerticalAlignment="Top" Width="96" Click="btnSendClear_Click"/>
+        <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Left" Margin="401,38,0,0" VerticalAlignment="Top" Width="95" Click="btnSend_Click"/>
+        <Button x:Name="btnRecClear" Content="Clear" HorizontalAlignment="Left" Margin="401,174,0,0" VerticalAlignment="Top" Width="95" Click="btnRecClear_Click"/>
+        <CheckBox Content="发送心跳" x:Name="cbSendHeart" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,41,261,0" Width="87"></CheckBox>
+        <CheckBox Content="不显示心跳" x:Name="cbIgnoreHeart" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,177,261,0" Width="102"></CheckBox>
     </Grid>
 </Window>

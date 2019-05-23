@@ -42,7 +42,8 @@ namespace Client
             client.Error += OnClientError;
             client.Closed += OnClientClosed;
 
-            timer = new System.Timers.Timer(1000);
+            //每2s发送一次心跳或尝试一次重连
+            timer = new System.Timers.Timer(2000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler((s, x) =>
             {
                 this.Dispatcher.BeginInvoke(new Action(() =>
@@ -89,7 +90,12 @@ namespace Client
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
             {
-                txbReceive.AppendText($"收到消息：{e.Package}" + '\n');
+                if (!e.Package.IsHeart)
+                    txbReceive.AppendText($"收到消息：{e.Package.Body}" + '\n');
+                else if (cbIgnoreHeart.IsChecked == false)
+                {
+                    txbReceive.AppendText($"收到心跳反馈：{e.Package.Body}" + '\n');
+                }
             }));
         }
         private void btnSendClear_Click(object sender, RoutedEventArgs e)
@@ -109,6 +115,11 @@ namespace Client
         private void btnRecClear_Click(object sender, RoutedEventArgs e)
         {
             txbReceive.Text = String.Empty;
+        }
+
+        private void TxbReceive_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            txbReceive.ScrollToEnd();
         }
     }
 }

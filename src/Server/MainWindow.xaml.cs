@@ -79,7 +79,20 @@ namespace Server
             this.Dispatcher.BeginInvoke(new Action(() =>
             {
                 if (requestInfo == null) return;
-                txbReceive.AppendText($"收到{session.SessionID}消息：{requestInfo.Body}" + '\n');
+                if (!requestInfo.IsHeart)
+                    txbReceive.AppendText($"收到{session.SessionID}消息：{requestInfo.Body}" + '\n');
+                //是否显示心跳包
+                else if (cbIgnoreHeart.IsChecked == false)
+                {
+                    txbReceive.AppendText($"收到{session.SessionID}心跳：{requestInfo.Body}" + '\n');
+                }
+                //发送心跳反馈
+                if (requestInfo.IsHeart && cbSendHeart.IsChecked == true)
+                {
+                    var msg = CommandBuilder.BuildHeartCmd();
+                    if (session.Connected)
+                        session.Send(msg, 0, msg.Length);
+                }
             }));
         }
         //发送消息
@@ -112,6 +125,11 @@ namespace Server
         private void btnRecClear_Click(object sender, RoutedEventArgs e)
         {
             txbReceive.Text = String.Empty;
+        }
+
+        private void TxbReceive_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            txbReceive.ScrollToEnd();
         }
     }
 }
